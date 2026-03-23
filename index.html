@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Done Already</title>
+</head>
+<body style="background:#111;color:white;font-family:sans-serif;padding:20px">
+
+<h1>Done Already 😏</h1>
+
+<select id="grade">
+  <option>6th</option>
+  <option>7th</option>
+  <option>8th</option>
+  <option>High School</option>
+</select>
+
+<select id="tone">
+  <option>kinda lazy but gets by</option>
+  <option>average student</option>
+  <option>try-hard</option>
+  <option>smart but chill</option>
+  <option>just need to pass</option>
+</select>
+
+<br><br>
+
+<textarea id="input" placeholder="Paste homework..." style="width:100%;height:120px"></textarea>
+
+<br><br>
+
+<button onclick="send()">Do It For Me</button>
+
+<pre id="output"></pre>
+
+<script>
+async function send() {
+  const grade = document.getElementById("grade").value;
+  const tone = document.getElementById("tone").value;
+  const input = document.getElementById("input").value;
+
+  const res = await fetch("/api/ai", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ grade, tone, input })
+  });
+
+  const data = await res.json();
+  document.getElementById("output").innerText = data.result;
+}
+</script>
+
+</body>
+</html>
