@@ -18,15 +18,13 @@ export default async function handler(req, res) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "gpt-5",
+        model: "gpt-4o-mini",
         messages: [
           {
             role: "system",
             content: `You are a teen homework assistant.
-
 Grade: ${grade}
 Tone: ${tone}
-
 Make the answer sound natural and human.`
           },
           {
@@ -39,13 +37,14 @@ Make the answer sound natural and human.`
 
     const data = await response.json();
 
+    // 🔥 IMPORTANT: show full response
     res.status(200).json({
-      result: data.choices?.[0]?.message?.content || "No response from AI"
+      result: JSON.stringify(data, null, 2)
     });
 
   } catch (err) {
     res.status(500).json({
-      result: "Error: " + err.message
+      result: "ERROR: " + err.message
     });
   }
 }
